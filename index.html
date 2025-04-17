@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurante Delicias</title>
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <!-- Header -->
+  <header class="bg-red-600 text-white p-6 flex justify-between items-center">
+    <h1 class="text-3xl font-bold">Restaurante Delicias</h1>
+    <nav class="space-x-4">
+      <a href="#menu" class="hover:underline">Menú</a>
+      <a href="#reservas" class="hover:underline">Reservas</a>
+      <a href="#carrito" class="hover:underline">Carrito</a>
+    </nav>
+  </header>
+
+  <!-- Menú de Productos -->
+  <section id="menu" class="p-10">
+    <h2 class="text-3xl font-bold mb-6 text-center">Nuestro Menú</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/descarga.jpg" alt="Pizza Margherita" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">Pizza Margherita</h3>
+        <p class="text-sm">Deliciosa pizza con tomate y albahaca</p>
+        <p class="font-bold">$2000</p>
+        <button onclick="agregarAlCarrito('Pizza Margherita', 2000)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/hambur.jpg" alt="Hamburguesa Clásica" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">Hamburguesa Clásica</h3>
+        <p class="text-sm">Carne vacuna, queso y vegetales frescos</p>
+        <p class="font-bold">$1800</p>
+        <button onclick="agregarAlCarrito('Hamburguesa Clásica', 1800)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/ensalad.jpg" alt="Ensalada César" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">Ensalada César</h3>
+        <p class="text-sm">Lechuga, pollo grillado y aderezo César</p>
+        <p class="font-bold">$1500</p>
+        <button onclick="agregarAlCarrito('Ensalada César', 1500)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/lomo.jpg" alt="Ensalada César" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">lomo salteado</h3>
+        <p class="text-sm">Delicioso lomo salteado</p>
+        <p class="font-bold">$5000</p>
+        <button onclick="agregarAlCarrito('Ensalada César', 1500)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/empanada.jpg" alt="Ensalada César" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">Empanadas</h3>
+        <p class="text-sm">Las mejores empanadas de campo</p>
+        <p class="font-bold">$1500</p>
+        <button onclick="agregarAlCarrito('Ensalada César', 1500)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-4">
+        <img src="img/sorrentinos.jpg" alt="Ensalada César" class="rounded mb-4">
+        <h3 class="text-xl font-semibold">Sorrentinos</h3>
+        <p class="text-sm">Deliciosos sorrentinos </p>
+        <p class="font-bold">$3000</p>
+        <button onclick="agregarAlCarrito('Ensalada César', 1500)" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Agregar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservas -->
+  <section id="reservas" class="bg-white py-10 px-6">
+    <h2 class="text-3xl font-bold mb-4 text-center">Reservar una Mesa</h2>
+    <form class="max-w-md mx-auto space-y-4">
+      <input type="text" placeholder="Nombre" class="w-full p-2 rounded border" required />
+      <input type="email" placeholder="Correo" class="w-full p-2 rounded border" required />
+      <input type="date" class="w-full p-2 rounded border" required />
+      <label for="time" class="block text-sm font-medium text-gray-700">Hora</label>
+      <input id="time" type="time" class="w-full p-2 rounded border" required title="Seleccione una hora" />
+      <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Reservar</button>
+      <form id="form-reserva" class="max-w-md mx-auto space-y-4">
+
+    </form>
+  </section>
+
+  <!-- Carrito -->
+  <section id="carrito" class="p-10 bg-gray-200">
+    <h2 class="text-3xl font-bold mb-4 text-center">Carrito de Compras</h2>
+    <div id="items" class="mb-4"></div>
+    <div class="text-center">
+      <p id="total" class="text-xl font-semibold">Total: $0</p>
+      <button onclick="pagar()" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Pagar con Mercado Pago</button>
+    </div>
+  </section>
+
+           <!-- reserva-->
+
+  <script>
+    const formReserva = document.getElementById('form-reserva');
+  
+    formReserva.addEventListener('submit', function (e) {
+      e.preventDefault();
+  
+      const nombre = formReserva.elements[0].value;
+      const correo = formReserva.elements[1].value;
+      const fecha = formReserva.elements[2].value;
+      const hora = formReserva.elements[3].value;
+  
+      // Aquí puedes enviar los datos a tu backend o a una API externa
+  
+      alert(`Reserva realizada con éxito para ${nombre} el ${fecha} a las ${hora}`);
+      formReserva.reset();
+    });
+  </script>
+  
+
+
+
+
+
+</body>
+
+
+
+<script>
+  const mp = new MercadoPago('TEST-5cb24b38-8e61-4ace-b484-c166959651d6', { locale: 'es-AR' }); // Reemplaza con tu public key
+  let carrito = [];
+
+  function agregarAlCarrito(nombre, precio) {
+    carrito.push({ nombre, precio });
+    mostrarCarrito();
+  }
+
+  function mostrarCarrito() {
+    const items = document.getElementById('items');
+    items.innerHTML = '';
+    let total = 0;
+
+    carrito.forEach((item, index) => {
+      total += item.precio;
+      items.innerHTML += `
+        <div class="flex justify-between items-center bg-white p-2 rounded mb-2">
+          <span>${item.nombre}</span>
+          <span>$${item.precio}</span>
+          <button onclick="eliminarDelCarrito(${index})" class="text-red-500 hover:underline">Eliminar</button>
+        </div>`;
+    });
+
+    document.getElementById('total').textContent = `Total: $${total}`;
+  }
+
+  function eliminarDelCarrito(index) {
+    carrito.splice(index, 1);
+    mostrarCarrito();
+  }
+
+  async function pagar() {
+    const response = await fetch('http://localhost:3000/crear-preferencia', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ carrito })
+    });
+
+    const data = await response.json();
+
+    mp.checkout({
+      preference: {
+         id: '423810740-1e80a5ed-b771-4f40-abc2-579383e0b327'
+
+      },
+      autoOpen: true
+    });
+  }
+</script>
+
+
+
+  
+</body>
+</html>
