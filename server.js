@@ -1,17 +1,26 @@
+
 const express = require("express");
 const cors = require("cors");
-const mercadopago = require("mercadopago"); // debe usar require, no import
+const mercadopago = require("mercadopago");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 mercadopago.configure({
-  access_token:
-    "TEST-7367127811004064-041620-2c9a3bf2acdd081258755e92d1266b38-423810740",
+  access_token: "TEST-7367127811004064-041620-2c9a3bf2acdd081258755e92d1266b38-423810740",
 });
 
 app.use(cors());
 app.use(express.json());
+
+// Servir archivos estáticos desde /public
+app.use(express.static(path.join(__dirname, "public")));
+
+// Ruta para servir index.html directamente
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.post("/crear-preferencia", async (req, res) => {
   const { carrito } = req.body;
@@ -33,16 +42,19 @@ app.post("/crear-preferencia", async (req, res) => {
       auto_return: "approved",
     });
 
-      res.json({ id: preferencia.body.id });
-    } catch (error) {
-      console.error("Error al crear preferencia:", error.response || error.message || error);
-      res.status(500).json({ error: "Error al crear la preferencia", details: error.message });
-    }
-    
- 
+    res.json({ id: preferencia.body.id });
+  } catch (error) {
+    console.error("Error al crear preferencia:", error.response || error.message || error);
+    res.status(500).json({ error: "Error al crear la preferencia", details: error.message });
+  }
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
+
+
+
+
+    
