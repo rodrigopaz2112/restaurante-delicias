@@ -10,9 +10,12 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src *; script-src * 'unsafe-inline'; style-src * 'unsafe-inline'; img-src * data:; font-src *;");
+  res.setHeader("Content-Security-Policy",
+    "default-src *; script-src * 'unsafe-inline'; style-src * 'unsafe-inline' https:; style-src-elem * 'unsafe-inline' https:; img-src * data:; font-src *;"
+  );
   next();
 });
+
 
 
 
