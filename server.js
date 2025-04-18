@@ -7,6 +7,17 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src *; script-src * 'unsafe-inline'; style-src * 'unsafe-inline'; img-src * data:; font-src *;");
+  next();
+});
+
+
+
+
+
 mercadopago.configure({
   access_token: "TEST-7367127811004064-041620-2c9a3bf2acdd081258755e92d1266b38-423810740",
 });
